@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zion Data Readiness for AI Audit</title>
+<meta name="description" content="Is your data ready for AI? Scored assessment across quality, governance, accessibility and documentation. Free tool by Zion Tech Group.">
+<style>
+:root{--bg:#0c0a13;--card:#17131f;--acc:#c4b5fd;--txt:#f0ebfc;--mut:#a89cc8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+header{padding:48px 24px 24px;text-align:center;background:linear-gradient(160deg,#251a4d,#0c0a13)}
+h1{margin:0 0 8px}.wrap{max-width:860px;margin:0 auto;padding:24px}
+.cat{margin:24px 0 8px;color:var(--acc);font-weight:600;text-transform:uppercase;font-size:.8rem;letter-spacing:.06em}
+.item{display:flex;gap:12px;background:var(--card);border:1px solid #281f3d;border-radius:12px;padding:14px;margin:8px 0;align-items:center}
+.item input{width:20px;height:20px;accent-color:var(--acc)}
+.score{position:sticky;bottom:16px;background:#1d1633;border:1px solid #3a2d63;border-radius:14px;padding:16px;text-align:center;font-size:1.2rem;margin-top:24px}
+.bar{height:10px;background:#141025;border-radius:6px;margin-top:8px;overflow:hidden}.bar>div{height:100%;background:var(--acc);width:0;transition:width .3s}
+footer{padding:32px 24px;text-align:center;color:var(--mut);font-size:.85rem;border-top:1px solid #201a36;margin-top:40px}
+footer a{color:var(--acc);text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+<header><h1>🧭 Zion Data Readiness for AI Audit</h1>
+<p>Before you fund the AI project, audit the data. 20 checks across 5 domains — get a readiness score and next steps.</p></header>
+<div class="wrap" id="app"></div>
+<footer>Part of the <a href="https://ziontechgroup.com">Zion Tech Group</a> AI apps network ·
+<a href="https://ziontechgroup.com/zion-embedding-picker/">Embedding Picker</a>
+<a href="https://ziontechgroup.com/zion-vendor-lockin-score/">Lock-in Score</a>
+<a href="https://ziontechgroup.com/zion-green-ai-estimator/">Green AI Estimator</a>
+<a href="https://ziontechgroup.com/ai-data-analytics/">Zion data services</a></footer>
+<script>
+const C={
+'Quality':['Deduplication and validation rules run in pipelines','Known data quality metrics tracked per key table','Null/outlier rates measured for AI-relevant fields','Labels/ground truth exist for the target use case'],
+'Governance':['Data owners assigned per domain','Retention and deletion policies enforced','Lineage documented from source to consumption','Regulatory constraints mapped (GDPR, HIPAA, etc.)'],
+'Accessibility':['AI teams can get data via API/query, not tickets','Access requests fulfilled in under 2 days','PII access controls with audit logging','Sandbox environment with production-like data'],
+'Documentation':['Schema and field definitions documented','Business glossary exists for key entities','Data freshness/SLA stated per source'],
+'Infrastructure':['Data platform can feed training + retrieval workloads','Versioned datasets or snapshots available','Pipelines are reproducible and monitored','Vector/search infrastructure evaluated (see Vector DB Comparator)']};
+const app=document.getElementById('app');let html='';
+for(const[cat,items]of Object.entries(C)){html+=`<div class="cat">${cat}</div>`+items.map(t=>`<label class="item"><input type="checkbox"><span>${t}</span></label>`).join('');}
+html+=`<div class="score"><div>Data readiness: <b id="pct">0%</b> <span id="v" style="color:var(--mut);font-size:.9rem"></span></div><div class="bar"><div id="fill"></div></div></div>`;
+app.innerHTML=html;
+app.addEventListener('change',()=>{const b=[...app.querySelectorAll('input')];const p=Math.round(b.filter(x=>x.checked).length/b.length*100);
+document.getElementById('pct').textContent=p+'%';document.getElementById('fill').style.width=p+'%';
+document.getElementById('v').textContent=p>=85?'— AI-ready 🚀':p>=60?'— pilotable with guardrails':p>=35?'— fix foundations first':'— data program needed before AI';});
+</script>
+</body>
+</html>
